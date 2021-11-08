@@ -26,7 +26,7 @@ def mostrarUsers():
     return(jsonify(Datos)) 
 
 #Login usuario
-
+'''
 @app.route('/Logiin',methods =['POST'])
 def obtenerUnUsuario():
     global Usuarios
@@ -44,7 +44,7 @@ def obtenerUnUsuario():
                 envios.append(unEnvio)
     respuesta = jsonify(envios)   
     return respuesta
-
+'''
 
 #Login Admin
 @app.route('/Login',methods =['POST'])
