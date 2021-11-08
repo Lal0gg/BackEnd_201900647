@@ -24,6 +24,24 @@ def mostrarUsers():
         Datos.append(objeto)
     return(jsonify(Datos)) 
 
+#Login usuario
+@app.route('/Login',methods =['GET'])
+def obtenerUnUsuario():
+    global Usuarios
+    envios = []
+    for usuario in Usuarios:
+        if(usuario.getUsername() == request.json['username'] and usuario.getPassword() == request.json['password'] ):
+            unEnvio = {
+                'name':usuario.getName(),
+                'gender':usuario.getGender(),
+                'username':usuario.getUsername(),
+                'email':usuario.getEmail(),
+                'password':usuario.getPassword()
+            } 
+            envios.append(unEnvio)
+    respuesta = jsonify(envios)   
+    return respuesta
+
 #Metodo para encontrar usuario
 @app.route('/Usuarios/<string:nombre>', methods=['GET'])
 def obtenerUsuario(nombre):
