@@ -5,7 +5,8 @@ import json
 Usuarios = []
 app = Flask(__name__)
 CORS(app)
-Usuarios.append(Usuario("Abner Cardona","M", "Admin", "admin@ipc1.com", "admin@ipc1"))
+
+Usuarios.append(Usuario("Abner Cardona","M", "admin", "admin@ipc1.com", "admin@ipc1"))
 
 
 #Metodo para mostar usuarios
@@ -30,7 +31,26 @@ def obtenerUnUsuario():
     global Usuarios
     envios = []
     for usuario in Usuarios:
-        if(usuario.getUsername() == request.json['username'] and usuario.getPassword() == request.json['password'] ):
+        if(usuario.getUsername() == request.json['username']  ):
+            if(usuario.getPassword() == request.json['password'] ):
+                unEnvio = {
+                    'name':usuario.getName(),
+                    'gender':usuario.getGender(),
+                    'username':usuario.getUsername(),
+                    'email':usuario.getEmail(),
+                    'password':usuario.getPassword()
+                } 
+                envios.append(unEnvio)
+    respuesta = jsonify(envios)   
+    return respuesta
+
+#Login Admin
+@app.route('/Login',methods =['GET'])
+def obtenerAdmin():
+    global Usuarios
+    envios = []
+    for usuario in Usuarios:
+        if(usuario.getUsername() ==  "admin" and usuario.getPassword() == "admin@ipc1" ):
             unEnvio = {
                 'name':usuario.getName(),
                 'gender':usuario.getGender(),
@@ -40,7 +60,7 @@ def obtenerUnUsuario():
             } 
             envios.append(unEnvio)
     respuesta = jsonify(envios)   
-    return respuesta
+    return respuesta    
 
 #Metodo para encontrar usuario
 @app.route('/Usuarios/<string:nombre>', methods=['GET'])
@@ -70,11 +90,36 @@ def agregarUsuario():
     username = request.json['username']
     email = request.json['email']
     password = request.json['password']
-    nuevo = Usuario(name,gender,username,email,password)
-    Usuarios.append(nuevo)
+    if(len(str(password))>7):
+        if(validarnumero(str(password))== True):
+            if(validarcaracter(str(password))== True):
+                nuevo = Usuario(name,gender,username,email,password)
+                Usuarios.append(nuevo)
+                return jsonify({
+                    'mensaje': 'Se agrego el usuario exitosamente'
+                })
+            return jsonify({
+                'mensaje':"Ecriba una constraseña que tenga como mínimo un caracter"
+            })
+        return jsonify({
+                'mensaje':"Ecriba una constraseña que tenga como mínimo un numero"
+            })
     return jsonify({
-        'mensaje': 'Se agrego el usuario exitosamente'
+        'mensaje': 'Escriba una contraseña que contenga minimo 8 caracteres'
     })
+
+def validarnumero(password):
+    for inicio in password:
+        if (ord(inicio) >=48 and ord(inicio)<= 57):
+            return True
+    
+    
+def validarcaracter(password):
+    for inicio in password:
+        if ((ord(inicio) >=33 and ord(inicio)<= 47) or (ord(inicio) >=58 and ord(inicio)<= 64)):
+            return True
+
+
 
 
 if __name__ == "__main__":
