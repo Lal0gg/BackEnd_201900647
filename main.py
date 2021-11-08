@@ -27,7 +27,7 @@ def mostrarUsers():
 
 #Login usuario
 
-@app.route('/Login',methods =['POST'])
+@app.route('/Logiin',methods =['POST'])
 def obtenerUnUsuario():
     global Usuarios
     envios = []
