@@ -26,11 +26,10 @@ def mostrarUsers():
     return(jsonify(Datos)) 
 
 #Login usuario
-'''
+
 @app.route('/Logiin',methods =['POST'])
 def obtenerUnUsuario():
     global Usuarios
-    envios = []
     for usuario in Usuarios:
         if(usuario.getUsername() == request.json['username']  ):
             if(usuario.getPassword() == request.json['password'] ):
@@ -41,16 +40,14 @@ def obtenerUnUsuario():
                     'email':usuario.getEmail(),
                     'password':usuario.getPassword()
                 } 
-                envios.append(unEnvio)
-    respuesta = jsonify(envios)   
+    respuesta = jsonify(unEnvio)   
     return respuesta
-'''
+
 
 #Login Admin
 @app.route('/Login',methods =['POST'])
 def obtenerAdmin():
     global Usuarios
-    envios = []
     for usuario in Usuarios:
         if(usuario.getUsername() ==  "admin" and usuario.getPassword() == "admin@ipc1" ):
             unEnvio = {
@@ -60,8 +57,7 @@ def obtenerAdmin():
                 'email':usuario.getEmail(),
                 'password':usuario.getPassword()
             } 
-            envios.append(unEnvio)
-    respuesta = jsonify(envios)   
+    respuesta = jsonify(unEnvio)   
     return respuesta    
 
 #Metodo para encontrar usuario
