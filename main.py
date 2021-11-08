@@ -45,8 +45,9 @@ def obtenerUnUsuario():
     respuesta = jsonify(envios)   
     return respuesta
 '''
+
 #Login Admin
-@app.route('/Login',methods =['GET'])
+@app.route('/Login',methods =['POST'])
 def obtenerAdmin():
     global Usuarios
     envios = []
